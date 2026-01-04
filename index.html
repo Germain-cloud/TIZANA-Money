@@ -68,33 +68,85 @@
             z-index: 1;
         }
 
-        /* Control Panel */
-        .control-panel {
+        /* Menu Hamburger */
+        .menu-toggle {
             position: fixed;
             top: 20px;
             right: 20px;
             z-index: 2000;
-            display: flex;
-            gap: 10px;
-            flex-direction: column;
-        }
-
-        .control-btn {
+            width: 50px;
+            height: 50px;
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border);
-            border-radius: 15px;
-            padding: 12px 18px;
-            color: var(--text-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: var(--shadow);
+            color: var(--text-primary);
+            font-size: 1.5rem;
+        }
+
+        .menu-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .menu-toggle.active {
+            background: rgba(102, 126, 234, 0.3);
+        }
+
+        /* Control Panel Menu */
+        .control-panel {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            z-index: 1999;
+            background: var(--glass-bg);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 15px;
+            box-shadow: var(--shadow-hover);
+            min-width: 220px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-20px) scale(0.95);
+            transition: all 0.3s ease;
+        }
+
+        .control-panel.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+
+        .control-btn {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 12px 15px;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
             font-size: 14px;
             font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            width: 100%;
+            margin-bottom: 8px;
+        }
+
+        .control-btn:last-child {
+            margin-bottom: 0;
         }
 
         .control-btn:hover {
@@ -181,7 +233,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.7);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             z-index: 3000;
@@ -202,11 +254,94 @@
             border: 1px solid var(--glass-border);
             border-radius: 30px;
             padding: 50px;
-            max-width: 550px;
+            max-width: 600px;
             width: 90%;
             box-shadow: var(--shadow-hover);
             position: relative;
             animation: slideUp 0.4s ease;
+        }
+
+        .payment-number {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .payment-number:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateX(5px);
+        }
+
+        .payment-number .number-info {
+            flex: 1;
+        }
+
+        .payment-number .number-info h4 {
+            color: var(--text-primary);
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+        }
+
+        .payment-number .number-info p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .payment-number .number {
+            font-size: 1.3rem;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-left: 20px;
+        }
+
+        .copy-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            padding: 10px 20px;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: 15px;
+        }
+
+        .copy-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .payment-instructions {
+            background: rgba(102, 126, 234, 0.1);
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .payment-instructions h4 {
+            color: var(--text-primary);
+            margin-bottom: 10px;
+        }
+
+        .payment-instructions ol {
+            margin-left: 20px;
+            color: var(--text-secondary);
+        }
+
+        .payment-instructions li {
+            margin: 8px 0;
         }
 
         .payment-header {
@@ -1322,60 +1457,6 @@
         </button>
     </div>
 
-    <!-- Payment Overlay -->
-    <div class="payment-overlay" id="payment-overlay">
-        <div class="payment-container">
-            <button class="close-auth" onclick="closePaymentModal()">
-                <i class="fas fa-times"></i>
-            </button>
-            <div class="payment-header">
-                <h2 data-translate="payment-title">Instructions de Paiement</h2>
-                <p data-translate="payment-subtitle">Envoyez le montant à l'un des numéros ci-dessous</p>
-            </div>
-            
-            <div class="payment-info" id="payment-package-info">
-                <h3 style="margin-bottom: 15px; color: var(--text-primary);" data-translate="selected-package">Package sélectionné</h3>
-                <div style="font-size: 1.2rem; font-weight: 700; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" id="payment-package-name">VIP1</div>
-                <div style="margin-top: 10px; color: var(--text-secondary;" data-translate="amount-to-pay">Montant à payer</div>
-                <div style="font-size: 1.5rem; font-weight: 700; color: var(--text-primary); margin-top: 5px;" id="payment-amount">10,000 FC</div>
-            </div>
-
-            <div class="payment-instructions">
-                <h3 data-translate="instructions">Instructions</h3>
-                <ol>
-                    <li data-translate="instruction-1">Envoyez le montant exact à l'un des numéros ci-dessous</li>
-                    <li data-translate="instruction-2">Après l'envoi, utilisez la fonction "Recharger mon solde"</li>
-                    <li data-translate="instruction-3">Votre solde sera crédité après vérification</li>
-                </ol>
-            </div>
-
-            <div class="payment-agent">
-                <div class="agent-info">
-                    <div class="agent-name">Germain Bwishe</div>
-                    <div class="agent-role" data-translate="payment-receiver">Réceptionniste d'argent</div>
-                </div>
-                <div class="agent-number" onclick="copyToClipboard('+243986355253', this)" id="agent1-number">
-                    +243 986355253
-                </div>
-            </div>
-
-            <div class="payment-agent">
-                <div class="agent-info">
-                    <div class="agent-name">Ruben Pascal</div>
-                    <div class="agent-role" data-translate="payment-receiver">Réceptionniste d'argent</div>
-                </div>
-                <div class="agent-number" onclick="copyToClipboard('+243999999999', this)" id="agent2-number">
-                    +243 999999999
-                </div>
-            </div>
-
-            <div style="text-align: center; margin-top: 30px; display: flex; gap: 10px; justify-content: center;">
-                <button class="auth-btn" onclick="closePaymentModal()" style="background: rgba(255,255,255,0.2); max-width: 150px;" data-translate="cancel">Annuler</button>
-                <button class="auth-btn" id="confirm-payment-btn" style="max-width: 200px;" data-translate="i-paid">J'ai envoyé l'argent</button>
-            </div>
-        </div>
-    </div>
-
     <!-- Deposit/Recharge Overlay -->
     <div class="auth-overlay" id="deposit-overlay">
         <div class="auth-container">
@@ -1413,6 +1494,62 @@
             </form>
             <div class="auth-switch">
                 <span data-translate="after-deposit">Après soumission, votre solde sera crédité après vérification</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Modal -->
+    <div class="payment-overlay" id="payment-overlay">
+        <div class="payment-container">
+            <button class="close-auth" onclick="closePaymentModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="payment-header">
+                <h2 data-translate="payment-title">Effectuer le Paiement</h2>
+                <p data-translate="payment-subtitle" id="payment-package-name">VIP1 - 10,000 FC</p>
+            </div>
+
+            <div class="payment-instructions">
+                <h4 data-translate="payment-instructions-title">Instructions de paiement</h4>
+                <ol data-translate="payment-instructions-list">
+                    <li>Envoyez le montant exact à l'un des numéros ci-dessous</li>
+                    <li>Copiez le numéro et envoyez l'argent via Mobile Money</li>
+                    <li>Après envoi, votre solde sera rechargé automatiquement</li>
+                    <li>Vous pourrez ensuite acheter votre package VIP</li>
+                </ol>
+            </div>
+
+            <div class="payment-numbers">
+                <div class="payment-number" onclick="copyPaymentNumber('+243986355253')">
+                    <div class="number-info">
+                        <h4>Germain Bwishe</h4>
+                        <p data-translate="payment-receiver">Réceptionniste d'argent</p>
+                    </div>
+                    <div class="number">+243 986 355 253</div>
+                    <button class="copy-btn" onclick="event.stopPropagation(); copyPaymentNumber('+243986355253')">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                </div>
+
+                <div class="payment-number" onclick="copyPaymentNumber('+243999999999')">
+                    <div class="number-info">
+                        <h4>Ruben Pascal</h4>
+                        <p data-translate="payment-receiver">Réceptionniste d'argent</p>
+                    </div>
+                    <div class="number">+243 999 999 999</div>
+                    <button class="copy-btn" onclick="event.stopPropagation(); copyPaymentNumber('+243999999999')">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div style="margin-top: 30px; text-align: center;">
+                <p style="color: var(--text-secondary); margin-bottom: 15px;" data-translate="payment-note">
+                    Après avoir envoyé l'argent, votre solde sera rechargé automatiquement par notre équipe.
+                </p>
+                <button class="auth-btn" onclick="closePaymentModal()" style="max-width: 200px;">
+                    <span data-translate="close">Fermer</span>
+                </button>
             </div>
         </div>
     </div>
@@ -1959,6 +2096,15 @@
                                 </button>
                             </form>
                         </div>
+                        <div class="info-card" style="margin-top: 20px;">
+                            <h3><i class="fas fa-sign-out-alt"></i> <span data-translate="logout">Déconnexion</span></h3>
+                            <p style="margin: 15px 0; color: var(--text-secondary);" data-translate="logout-description">
+                                Vous pouvez vous déconnecter de votre compte à tout moment.
+                            </p>
+                            <button type="button" class="auth-btn" id="logout-btn" style="max-width: 200px; background: linear-gradient(135deg, #f44336 0%, #d32f2f 100%);">
+                                <i class="fas fa-sign-out-alt"></i> <span data-translate="logout-button">Se déconnecter</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
                 
@@ -2113,7 +2259,10 @@
                 'notifications': 'Notifications',
                 'notifications-desc': 'Configurez vos préférences',
                 'settings': 'Paramètres',
-                'settings-desc': 'Personnalisez votre expérience'
+                'settings-desc': 'Personnalisez votre expérience',
+                'logout': 'Déconnexion',
+                'logout-description': 'Vous pouvez vous déconnecter de votre compte à tout moment.',
+                'logout-button': 'Se déconnecter'
             },
             en: {
                 'dark-mode': 'Dark Mode',
@@ -2179,7 +2328,10 @@
                 'notifications': 'Notifications',
                 'notifications-desc': 'Configure your preferences',
                 'settings': 'Settings',
-                'settings-desc': 'Customize your experience'
+                'settings-desc': 'Customize your experience',
+                'logout': 'Logout',
+                'logout-description': 'You can log out of your account at any time.',
+                'logout-button': 'Log Out'
             },
             sw: {
                 'dark-mode': 'Hali ya Giza',
@@ -2246,7 +2398,10 @@
                 'notifications-desc': 'Sanidi mapendeleo yako',
                 'settings': 'Mipangilio',
                 'settings-desc': 'Boresha uzoefu wako',
-                'light-mode': 'Hali ya Mwanga'
+                'light-mode': 'Hali ya Mwanga',
+                'logout': 'Toka',
+                'logout-description': 'Unaweza kutoka kwenye akaunti yako wakati wowote.',
+                'logout-button': 'Toka'
             }
         };
 
@@ -2444,6 +2599,22 @@
                 });
             }
 
+            // Logout functionality
+            const logoutBtn = document.getElementById('logout-btn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', function() {
+                    if (typeof logout === 'function') {
+                        logout();
+                    } else {
+                        // Fallback si la fonction logout n'est pas encore chargée
+                        if (confirm('Êtes-vous sûr de vouloir vous déconnecter ?')) {
+                            localStorage.removeItem('session_token');
+                            window.location.href = 'login.html';
+                        }
+                    }
+                });
+            }
+
             // Navigation functionality
             const navButtons = document.querySelectorAll('.nav-btn');
             const sections = document.querySelectorAll('.section');
@@ -2471,31 +2642,16 @@
             // Buy button functionality
             const buyButtons = document.querySelectorAll('.buy-button');
             buyButtons.forEach(button => {
-                button.addEventListener('click', async function() {
+                button.addEventListener('click', function() {
                     const productCard = this.closest('.product-card');
                     if (productCard) {
                         const productName = productCard.querySelector('h2');
+                        const productPrice = productCard.querySelector('.product-price');
                         const packageLevel = productName ? parseInt(productName.textContent.replace('VIP', '')) : null;
+                        const price = productPrice ? productPrice.textContent.trim() : '';
                         
-                        if (packageLevel && window.createInvestment) {
-                            const confirmed = confirm(
-                                currentLang === 'fr' ? 
-                                `Confirmer l'investissement dans ${productName.textContent}?` :
-                                currentLang === 'en' ?
-                                `Confirm investment in ${productName.textContent}?` :
-                                `Thibitisha uwekezaji katika ${productName.textContent}?`
-                            );
-                            
-                            if (confirmed) {
-                                await window.createInvestment(packageLevel);
-                            }
-                        } else {
-                            const message = currentLang === 'fr' ? 
-                                `Vous avez sélectionné ${productName.textContent}. Cette fonctionnalité sera bientôt disponible.` :
-                                currentLang === 'en' ?
-                                `You have selected ${productName.textContent}. This feature will be available soon.` :
-                                `Umechagua ${productName.textContent}. Kipengele hiki kitapatikana hivi karibuni.`;
-                            alert(message);
+                        if (packageLevel && window.openPaymentModal) {
+                            window.openPaymentModal(packageLevel, productName.textContent, price);
                         }
                     }
                 });
@@ -2569,15 +2725,16 @@
         function openPaymentModal(packageLevel, packageName, packagePrice) {
             const modal = document.getElementById('payment-overlay');
             const packageNameEl = document.getElementById('payment-package-name');
-            const packagePriceEl = document.getElementById('payment-amount');
             
-            if (packageNameEl) packageNameEl.textContent = packageName;
-            if (packagePriceEl) packagePriceEl.textContent = formatCurrency(packagePrice);
+            if (packageNameEl) {
+                packageNameEl.textContent = `${packageName} - ${packagePrice}`;
+            }
             
             // Stocker les informations pour l'achat
             if (modal) {
                 modal.dataset.packageLevel = packageLevel;
-                modal.dataset.packagePrice = packagePrice;
+                modal.dataset.packageName = packageName;
+                modal.dataset.packagePrice = packagePrice.replace(/[^\d]/g, '');
                 modal.classList.add('active');
             }
         }
@@ -2587,6 +2744,73 @@
             const modal = document.getElementById('payment-overlay');
             if (modal) modal.classList.remove('active');
         }
+
+        // Fonction pour copier le numéro de téléphone
+        function copyPaymentNumber(number) {
+            const cleanedNumber = number.replace(/\s/g, '');
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(cleanedNumber).then(function() {
+                    showCopyNotification(
+                        currentLang === 'fr' ? 
+                        'Numéro copié : ' + number :
+                        currentLang === 'en' ?
+                        'Number copied: ' + number :
+                        'Nambari imenakiliwa: ' + number
+                    );
+                }).catch(function(err) {
+                    console.error('Erreur de copie:', err);
+                    alert('Numéro: ' + number);
+                });
+            } else {
+                // Fallback pour les navigateurs plus anciens
+                const textarea = document.createElement('textarea');
+                textarea.value = cleanedNumber;
+                textarea.style.position = 'fixed';
+                textarea.style.opacity = '0';
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                showCopyNotification('Numéro copié : ' + number);
+            }
+        }
+
+        function showCopyNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: rgba(76, 175, 80, 0.95);
+                color: white;
+                padding: 20px 30px;
+                border-radius: 15px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                z-index: 10000;
+                font-weight: 600;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transition = 'opacity 0.3s';
+                setTimeout(() => notification.remove(), 300);
+            }, 2000);
+        }
+
+        // Fermer la modal en cliquant en dehors
+        document.addEventListener('DOMContentLoaded', function() {
+            const paymentOverlay = document.getElementById('payment-overlay');
+            if (paymentOverlay) {
+                paymentOverlay.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        closePaymentModal();
+                    }
+                });
+            }
+        });
         
         // Fonction pour ouvrir la modale de dépôt
         function openDepositModal() {
@@ -2687,6 +2911,9 @@
         
         window.showAccountTab = showAccountTab;
         window.copyReferralCode = copyReferralCode;
+        window.openPaymentModal = openPaymentModal;
+        window.closePaymentModal = closePaymentModal;
+        window.copyPaymentNumber = copyPaymentNumber;
     </script>
 </body>
 </html>
